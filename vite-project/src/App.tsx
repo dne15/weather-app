@@ -5,57 +5,55 @@ import "./App.css";
 import myImage from "../public/lens.png";
 
 function App() {
-
   const [city, setCity] = useState("");
   const [cityConf, setCityConf] = useState("");
   const [coordinates, setCoordinates] = useState();
 
-  function handleTyping (event) {
+  function handleTyping(event) {
     setCity(event.target.value);
   }
 
-  function handleSubmit (event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    setCityConf(city)
+    setCityConf(city);
   }
 
   useEffect(() => {
-    if(cityConf){
-      fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityConf},GB&limit=5&appid=30c6e5c11bdf59ec139aba0fcc4f4ced`)
-      .then(response => response.json()).then(data => setCoordinates(data))
-      console.log(coordinates)
+    if (cityConf) {
+      fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${cityConf}&appid=30c6e5c11bdf59ec139aba0fcc4f4ced`
+      )
+        .then((response) => response.json())
+        .then((data) => setCoordinates(data));
     }
   }, [cityConf]);
 
-
-
+  useEffect(() => {
+    if (coordinates) {
+      console.log(coordinates);
+    }
+  }, [coordinates]);
 
   return (
     <div className="MacroContainer">
-
-      
       <nav>
         <form>
+          <img src={myImage}></img>
 
-        <img src={myImage}></img>
-
-          <input value={city} onChange={handleTyping}  type="text" placeholder="Enter your City">
-          </input>
+          <input
+            value={city}
+            onChange={handleTyping}
+            type="text"
+            placeholder="Enter your City"
+          ></input>
 
           <button onClick={handleSubmit}>Search</button>
-
         </form>
       </nav>
 
-      <div className="WeatherImage">
-      </div>
+      <div className="WeatherImage"></div>
 
-      <div className="WeatherInfo">
-      </div>
-
-
-
-
+      <div className="WeatherInfo"></div>
     </div>
   );
 }
