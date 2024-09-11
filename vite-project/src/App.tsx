@@ -4,19 +4,30 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import myImage from "../public/lens.png";
 
+
+ // SETTING THE STATES 
+
 function App() {
   const [city, setCity] = useState("");
   const [cityConf, setCityConf] = useState("");
   const [weather, setWeather] = useState();
 
+
+  // STORING WHAT THE USER IS INPUTTING
+
   function handleTyping(event) {
     setCity(event.target.value);
   }
+
+  // STORING WHAT THE USER IS SUBMITING
 
   function handleSubmit(event) {
     event.preventDefault();
     setCityConf(city);
   }
+
+
+  // FETCHING FORM THE API
 
   useEffect(() => {
     if (cityConf) {
@@ -34,20 +45,14 @@ function App() {
     }
   }, [weather]);
 
-  //   <div className="reviewText">
-  //   {reviewData ? JSON.stringify(reviewData.text) : null}
-  // </div>
-  // <div className="authorLocation">
-  //   {reviewData ? reviewData.author : null}
-  //   <br></br>
-  //   {reviewData ? reviewData.location : null}
-  // </div>
+
+  // RENDERING WHAT WE NEED
 
   return (
     <div className="MacroContainer">
       <nav>
         <form>
-          <img src={myImage}></img>
+          <img className="glass" src={myImage}></img>
 
           <input
             value={city}
@@ -56,7 +61,7 @@ function App() {
             placeholder="Enter your City"
           ></input>
 
-          <button onClick={handleSubmit}>Search</button>
+          <button onClick={handleSubmit}><strong>Search</strong></button>
         </form>
       </nav>
 
@@ -64,13 +69,12 @@ function App() {
 
       <div className="WeatherInfo">
         {weather ? (
-          <p>
-            `The weather overall in ${cityConf} is:
-            JSON.stringify(weather[0]["description"])`
-          </p>
-        ) : null}
-
-        <p>Humidity</p>
+          <p><strong> The weather overall in {cityConf} is:</strong> {weather.weather[0].description}
+          <br/><br/>
+          <strong>The humidity is:</strong> {weather.main.humidity}%
+          <br/><br/>
+          <strong>The Temp is: </strong>{weather.main.temp-273}</p>
+        )  : null}
       </div>
     </div>
   );

@@ -3,11 +3,15 @@
   height: 100vh;
   width: 100vw;
   grid-template-rows: 33% 33% 33%;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  background-image: url('clouds.png');
+  margin:0;
 }
 
 nav{
   display: flex;
-  background-color: pink;
   height: 100%;
 }
 
@@ -15,11 +19,33 @@ nav{
 {
   display: flex;
   height: 100%;
-  background-color: green;
 }
 
 .WeatherInfo{
   display: flex;
   height: 100%;
-  background-color: red;
+  font-family: Verdana;
+  font-size: 1em;
+  text-justify: center;
+}
+
+.glass{
+  position: relative;
+  height: 1.5em;
+  left: 16%;
+  top: 2%;
+}
+
+input{
+  padding: 1em 4em;
+  margin: 2em;
+  border-radius: 20px;
+  color: rgb(61, 61, 61);
+}
+
+button{
+  background-color: rgb(255, 201, 99);
+  padding: 1em 2em 1em 2em;
+  border: none;
+  border-radius: 20%;
 }
