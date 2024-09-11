@@ -70,7 +70,6 @@ function App() {
           </p>
         ) : null}
 
-        {weather.main.temp}
         <p>Humidity</p>
       </div>
     </div>
