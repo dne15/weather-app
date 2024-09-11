@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -7,6 +7,8 @@ import myImage from "../public/lens.png";
 function App() {
 
   const [city, setCity] = useState("");
+  const [cityConf, setCityConf] = useState("");
+  const [coordinates, setCoordinates] = useState();
 
   function handleTyping (event) {
     setCity(event.target.value);
@@ -14,8 +16,18 @@ function App() {
 
   function handleSubmit (event) {
     event.preventDefault();
-    console.log(city)
+    setCityConf(city)
   }
+
+  useEffect(() => {
+    if(cityConf){
+      fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityConf},GB&limit=5&appid=30c6e5c11bdf59ec139aba0fcc4f4ced`)
+      .then(response => response.json()).then(data => setCoordinates(data))
+      console.log(coordinates)
+    }
+  }, [cityConf]);
+
+
 
 
   return (
