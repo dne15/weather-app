@@ -1,33 +1,33 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
-import myImage from "../public/lens.png";
+// Remove unused imports
+// import reactLogo from "./assets/react.svg";
+// import viteLogo from "/vite.svg";
 
-
- // SETTING THE STATES 
+// Define a type for the weather data
+interface WeatherData {
+  weather: Array<{ description: string }>;
+  main: {
+    humidity: number;
+    temp: number;
+  };
+}
 
 function App() {
   const [city, setCity] = useState("");
   const [cityConf, setCityConf] = useState("");
-  const [weather, setWeather] = useState();
+  const [weather, setWeather] = useState<WeatherData | null>(null);
 
-
-  // STORING WHAT THE USER IS INPUTTING
-
-  function handleTyping(event) {
+  // Add type for the event
+  function handleTyping(event: React.ChangeEvent<HTMLInputElement>) {
     setCity(event.target.value);
   }
 
-  // STORING WHAT THE USER IS SUBMITING
-
-  function handleSubmit(event) {
+  // Add type for the event
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setCityConf(city);
   }
-
-
-  // FETCHING FORM THE API
 
   useEffect(() => {
     if (cityConf) {
@@ -35,7 +35,7 @@ function App() {
         `https://api.openweathermap.org/data/2.5/weather?q=${cityConf},GB&appid=30c6e5c11bdf59ec139aba0fcc4f4ced`
       )
         .then((response) => response.json())
-        .then((data) => setWeather(data));
+        .then((data: WeatherData) => setWeather(data));
     }
   }, [cityConf]);
 
@@ -45,23 +45,20 @@ function App() {
     }
   }, [weather]);
 
-
-  // RENDERING WHAT WE NEED
-
   return (
     <div className="MacroContainer">
       <nav>
-        <form>
-          <img className="glass" src={myImage}></img>
+        <form onSubmit={handleSubmit}>
+          <img className="glass" src="/lens.png" alt="Magnifying glass" />
 
           <input
             value={city}
             onChange={handleTyping}
             type="text"
             placeholder="Enter your City"
-          ></input>
+          />
 
-          <button onClick={handleSubmit}><strong>Search</strong></button>
+          <button type="submit"><strong>Search</strong></button>
         </form>
       </nav>
 
@@ -69,12 +66,14 @@ function App() {
 
       <div className="WeatherInfo">
         {weather ? (
-          <p><strong> The weather overall in {cityConf} is:</strong> {weather.weather[0].description}
-          <br/><br/>
-          <strong>The humidity is:</strong> {weather.main.humidity}%
-          <br/><br/>
-          <strong>The Temp is: </strong>{weather.main.temp-273}</p>
-        )  : null}
+          <p>
+            <strong> The weather overall in {cityConf} is:</strong> {weather.weather[0].description}
+            <br/><br/>
+            <strong>The humidity is:</strong> {weather.main.humidity}%
+            <br/><br/>
+            <strong>The Temp is: </strong>{(weather.main.temp - 273.15).toFixed(2)}°C
+          </p>
+        ) : null}
       </div>
     </div>
   );
